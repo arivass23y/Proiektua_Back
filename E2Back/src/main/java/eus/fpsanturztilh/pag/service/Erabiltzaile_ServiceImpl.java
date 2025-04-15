@@ -35,8 +35,14 @@ public class Erabiltzaile_ServiceImpl implements Erabiltzaile_service {
         try {
             Optional<Erabiltzaile> erabiltzaile = erabiltzaileRepository.findByUsername(username);
             if (erabiltzaile.isPresent()) {
-                String hashedInput = hashPassword(rawPassword);
                 String storedHash = erabiltzaile.get().getPasahitza();
+
+                // 👇 Evitar login si es cuenta de Google
+                if ("__oauth_only__".equals(storedHash)) {
+                    return false;
+                }
+
+                String hashedInput = hashPassword(rawPassword);
                 return hashedInput.equals(storedHash);
             }
         } catch (NoSuchAlgorithmException e) {
@@ -45,6 +51,9 @@ public class Erabiltzaile_ServiceImpl implements Erabiltzaile_service {
         return false;
     }
 
+    public Erabiltzaile saveGoogleUser(Erabiltzaile erabiltzaile) {
+        return erabiltzaileRepository.save(erabiltzaile);
+    }
     
     public Erabiltzaile saveUser(Erabiltzaile erabiltzaile) {
         try {
