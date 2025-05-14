@@ -69,5 +69,52 @@ public class Erabiltzaile_controller {
 		}
 		return ResponseEntity.status(401).body(Map.of("status", false));
 	}
+	
+	@PostMapping("/google")
+	public ResponseEntity<?> googleLogin(@RequestBody Map<String, String> body) {
+	    String token = body.get("token");
+	    if (token == null || token.isBlank()) {
+	        return ResponseEntity.badRequest().body(Map.of("status", false, "message", "Falta el token"));
+	    }
+
+	    try {
+	        GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(
+	                new NetHttpTransport(),
+	                JacksonFactory.getDefaultInstance())
+	                .setAudience(Collections.singletonList("862214888792-r4fau3jo13m2mhurf203k34st03i3oma.apps.googleusercontent.com"))
+	                .build();
+
+	        GoogleIdToken idToken = verifier.verify(token);
+	        if (idToken != null) {
+	            GoogleIdToken.Payload payload = idToken.getPayload();
+	            String email = payload.getEmail();
+
+	            Optional<Erabiltzaile> erabiltzaileOpt = erabiltzaileService.findByUsername(email);
+	            Erabiltzaile erabiltzaile;
+	            if (erabiltzaileOpt.isPresent()) {
+	                erabiltzaile = erabiltzaileOpt.get();
+	            } else {
+	                erabiltzaile = new Erabiltzaile();
+	                erabiltzaile.setUsername(email);
+	                erabiltzaile.setPasahitza("__oauth_only__");
+	                erabiltzaile.setRola("ik");
+	                erabiltzaileService.saveGoogleUser(erabiltzaile);
+	            }
+
+	            return ResponseEntity.ok(Map.of(
+	                "username", erabiltzaile.getUsername(),
+	                "rola", erabiltzaile.getRola(),
+	                "status", true
+	            ));
+	        } else {
+	            return ResponseEntity.status(401).body(Map.of("status", false, "message", "Token inválido"));
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return ResponseEntity.status(500).body(Map.of("status", false, "message", "Error en login con Google"));
+	    }
+	}
+
+
 
 }
