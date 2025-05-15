@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import eus.fpsanturztilh.pag.model.Zerbitzu_kategoria;
-import eus.fpsanturztilh.pag.model.Zerbitzuak;
 
 public interface Zerbitzu_kategoria_service {
 	public List<Zerbitzu_kategoria> getAll();
