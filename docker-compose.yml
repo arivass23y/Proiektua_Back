@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: MySQL_Pelu
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: 3pag2e2
+      MYSQL_USER: talde3
+      MYSQL_PASSWORD: talde3
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  springboot:
+    build: ./E2Back
+    container_name: SpringBoot_Pelu
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/3pag2e2
+      SPRING_DATASOURCE_USERNAME: talde3
+      SPRING_DATASOURCE_PASSWORD: talde3

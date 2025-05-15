@@ -1,13 +1,12 @@
 package eus.fpsanturztilh.pag.service;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import eus.fpsanturtzilh.pag.dto.ServiciosPorCategoriaDTO;
 import eus.fpsanturztilh.pag.model.*;
 import eus.fpsanturztilh.pag.repository.*;
 import jakarta.persistence.Tuple;
@@ -63,12 +62,22 @@ public class Hitzordu_ServiceImpl implements Hitzordu_service {
 	        }
 
 	        // Agregar la categoría de servicio y cantidad dentro del mapa de servicios
-	        Map<String, Long> servicios = (Map<String, Long>) datosTrabajadores.get(langileId).get("servicios");
+	        @SuppressWarnings("unchecked")
+			Map<String, Long> servicios = (Map<String, Long>) datosTrabajadores.get(langileId).get("servicios");
 	        servicios.put(categoriaServicio, cantidadServicios);
 	    }
 
 	    return datosTrabajadores;
 	}
 
+	@Override
+	public Hitzorduak saveErreserba(Hitzorduak hitzordu) {
+		
+		hitzordu.setEserlekua(1);
+		hitzordu.setHasieraOrdua(LocalTime.parse("09:45"));
+		hitzordu.setAmaieraOrdua(LocalTime.parse("10:30"));
+		hitzordu.setEtxekoa('E');
 
+		return hitzorduRepository.save(hitzordu);
+	}
 }

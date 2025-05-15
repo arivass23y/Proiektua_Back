@@ -186,4 +186,11 @@ public class Hitzordu_controller {
 			return ResponseEntity.notFound().build();
 		}
 	}
+	
+	@PostMapping("/erreserba")
+	@Operation(summary = "Hitzordu berri bat sortzea", description = "Hitzordu berri bat sortzen du emandako datuekin.", responses = {
+			@ApiResponse(responseCode = "201", description = "Hitzordua arrakastaz sortu da", content = @Content(mediaType = "application/json")) })
+	public ResponseEntity<Hitzorduak> createHitzorduakApp(@RequestBody Hitzorduak hitzordu) {
+		return ResponseEntity.status(HttpStatus.CREATED).body(hitzorduService.saveErreserba(hitzordu));
+	}
 }
