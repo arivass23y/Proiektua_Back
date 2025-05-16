@@ -73,7 +73,7 @@ public class Hitzordu_ServiceImpl implements Hitzordu_service {
 	public Hitzorduak saveErreserba(Hitzorduak hitzordu) {
 		hitzordu.setEserlekua(1);
 		hitzordu.setAmaieraOrdua(hitzordu.getHasieraOrdua().plusHours(1).plusMinutes(30));
-		hitzordu.setEtxekoa('E');
+		hitzordu.setEtxekoa('K');
 
 		return hitzorduRepository.save(hitzordu);
 	}
