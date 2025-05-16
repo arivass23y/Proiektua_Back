@@ -1,10 +1,12 @@
 @echo off
-echo Iniciando contenedores del back...
+cd E2Back
 
-docker start MySQL_Pelu
-docker start SpringBoot_Pelu
+echo Limpiando y construyendo el proyecto con Maven...
+call mvn clean package -DskipTests
 
-echo Mostrando logs del Spring Boot...
-docker logs -f SpringBoot_Pelu
+cd ..
+
+echo Iniciando el backend con Docker...
+docker-compose up --build
 
 pause
