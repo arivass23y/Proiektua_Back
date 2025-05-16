@@ -1,7 +1,6 @@
 package eus.fpsanturztilh.pag.service;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,10 +71,8 @@ public class Hitzordu_ServiceImpl implements Hitzordu_service {
 
 	@Override
 	public Hitzorduak saveErreserba(Hitzorduak hitzordu) {
-		
 		hitzordu.setEserlekua(1);
-		hitzordu.setHasieraOrdua(LocalTime.parse("09:45"));
-		hitzordu.setAmaieraOrdua(LocalTime.parse("10:30"));
+		hitzordu.setAmaieraOrdua(hitzordu.getHasieraOrdua().plusHours(1).plusMinutes(30));
 		hitzordu.setEtxekoa('E');
 
 		return hitzorduRepository.save(hitzordu);
