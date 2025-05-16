@@ -78,7 +78,8 @@ public class Erabiltzaile_controller {
 	    }
 
 	    try {
-	        GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(
+	        @SuppressWarnings("deprecation")
+			GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(
 	                new NetHttpTransport(),
 	                JacksonFactory.getDefaultInstance())
 	                .setAudience(Collections.singletonList("862214888792-r4fau3jo13m2mhurf203k34st03i3oma.apps.googleusercontent.com"))

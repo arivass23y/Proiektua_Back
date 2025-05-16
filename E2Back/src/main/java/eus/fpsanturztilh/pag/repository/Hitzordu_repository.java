@@ -1,6 +1,5 @@
 package eus.fpsanturztilh.pag.repository;
 
-import eus.fpsanturtzilh.pag.dto.ServiciosPorCategoriaDTO;
 import eus.fpsanturztilh.pag.model.Hitzorduak;
 import jakarta.persistence.Tuple;
 
