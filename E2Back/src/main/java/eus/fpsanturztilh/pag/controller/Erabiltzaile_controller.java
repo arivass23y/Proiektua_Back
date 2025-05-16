@@ -88,7 +88,11 @@ public class Erabiltzaile_controller {
 	        if (idToken != null) {
 	            GoogleIdToken.Payload payload = idToken.getPayload();
 	            String email = payload.getEmail();
-
+	            
+	            if (!email.endsWith("@fpsanturtzilh.eus")) {
+	                return ResponseEntity.status(403).body("Dominio de email no autorizado");
+	            }
+	            
 	            Optional<Erabiltzaile> erabiltzaileOpt = erabiltzaileService.findByUsername(email);
 	            Erabiltzaile erabiltzaile;
 	            if (erabiltzaileOpt.isPresent()) {
